@@ -5,13 +5,34 @@ let times = document.querySelector('.multiply');
 let numberBtns = document.querySelectorAll('.number');
 let prevOperation = document.querySelector('.prev-operation');
 let currentOperation = document.querySelector('.current-operation');
+let clearBtn = document.querySelector('.clear');
+let deleteBtn = document.querySelector('.delete');
+
 let parameter = "";
 let num1 = [];
 let num2 = [];
 
+clearBtn.addEventListener('click', function() {
+    currentOperation.textContent = "";
+    currentOperation.textContent = "";
+    num1 = [];
+    num2 = [];
+})
+
+deleteBtn.addEventListener('click', function() {
+    num1.pop();
+    currentOperation.textContent = num1.join("");
+})
+
 currentOperation.textContent = num1.join("");
 numberBtns.forEach(n => n.addEventListener('click', function () {
-    num1.push(n.textContent);
+    if (parameter === "") {
+        num1.push(n.textContent);
+        currentOperation.textContent = num1.join("");
+    } else {
+        num2.push(n.textContent);
+        currentOperation.textContent = num2.join("");
+    }
 }))
 
 // Create 4 operator functions:
@@ -44,7 +65,7 @@ times.addEventListener('click', Multiply);
 function operate(num1, num2, parameter) {
     num1 = num1.join("");
     num2 = num2.join("");
-    return num1 + parameter + num2
+    return num1 + parameter + num2;
 }
 
 // Create function that makes buttons display a value in the display area
