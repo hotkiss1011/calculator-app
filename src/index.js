@@ -2,31 +2,34 @@ let plus = document.querySelector('.add');
 let minus = document.querySelector('.subtract');
 let divide = document.querySelector('.divide');
 let times = document.querySelector('.multiply');
+let equals = document.querySelector('.equals');
 let numberBtns = document.querySelectorAll('.number');
 let prevOperation = document.querySelector('.prev-operation');
 let currentOperation = document.querySelector('.current-operation');
 let clearBtn = document.querySelector('.clear');
 let deleteBtn = document.querySelector('.delete');
 
-let parameter = "";
+let operator = "";
 let num1 = [];
 let num2 = [];
 
 clearBtn.addEventListener('click', function() {
     currentOperation.textContent = "";
-    currentOperation.textContent = "";
+    prevOperation.textContent = "";
     num1 = [];
     num2 = [];
+    return num1, num2
 })
 
 deleteBtn.addEventListener('click', function() {
     num1.pop();
     currentOperation.textContent = num1.join("");
+    return num1;
 })
 
 currentOperation.textContent = num1.join("");
 numberBtns.forEach(n => n.addEventListener('click', function () {
-    if (parameter === "") {
+    if (operator === "") {
         num1.push(n.textContent);
         currentOperation.textContent = num1.join("");
     } else {
@@ -38,34 +41,40 @@ numberBtns.forEach(n => n.addEventListener('click', function () {
 // Create 4 operator functions:
     // Add
 function Add() {
-    parameter = "+";
-    return parameter;
+    operator = "+";
+    prevOperation.textContent = `${num1.join("")} ${operator}`;
+    return operator;
 }
     // Subtract
 function Subtract() {
-    parameter = "-";
-    return parameter;
+    operator = "-";
+    prevOperation.textContent = `${num1.join("")} ${operator}`;
+    return operator;
 }
     // Divide
 function Divide() {
-    parameter = "/";
-    return parameter;
+    operator = "/";
+    prevOperation.textContent = `${num1.join("")} ${operator}`;
+    return operator;
 }
     // Multiply
 function Multiply() {
-    parameter = "*";
-    return parameter;
+    operator = "*";
+    prevOperation.textContent = `${num1.join("")} X `;
+    return operator;
 }
 
 plus.addEventListener('click', Add);
 minus.addEventListener('click', Subtract);
 divide.addEventListener('click', Divide);
 times.addEventListener('click', Multiply);
-// Create "operate" function w/ 3 parameters: 2 numbers and 1 operator
-function operate(num1, num2, parameter) {
-    num1 = num1.join("");
-    num2 = num2.join("");
-    return num1 + parameter + num2;
+
+// Create "operate" function w/ 3 operators: 2 numbers and 1 operator
+function operate(num1, num2, operator) {
+    if (operator === "/") {
+        prevOperation.textContent = Number(num1.join("")) / Number(num2.join(""));
+    }
+    return num1 + operator + num2;
 }
 
 // Create function that makes buttons display a value in the display area
