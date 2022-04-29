@@ -1,3 +1,4 @@
+// QUERY SELECTORS
 let plus = document.querySelector('.add');
 let minus = document.querySelector('.subtract');
 let divide = document.querySelector('.divide');
@@ -7,73 +8,97 @@ let prevOperation = document.querySelector('.prev-operation');
 let currentOperation = document.querySelector('.current-operation');
 let clearBtn = document.querySelector('.clear');
 let deleteBtn = document.querySelector('.delete');
+let equals = document.querySelector('.equals');
 
+// DEFINING NUMBERS AND OPERATOR
 let operator = "";
-let currentOperationText = currentOperation.textContent;
-prevOperationText = prevOperation.textContent;
+let num1 = currentOperation.textContent;
+let num2 = prevOperation.textContent;
 
 clearBtn.addEventListener('click', function() {
+    num1 = "";
+    num2 = "";
+    operator = "";
     currentOperation.textContent = "";
     prevOperation.textContent = "";
-    return currentOperationText, prevOperationText
+    return num1, num2;
 })
 
-// FIX THIS!!!
 deleteBtn.addEventListener('click', function() {
-    currentOperation.pop();
-    return currentOperationText;
+    num1 = num1.slice(0, -1);
+    currentOperation.textContent = num1;
+    return num1;
 })
 
 numberBtns.forEach(n => n.addEventListener('click', function () {
-    if (operator === "") {
-        console.log(currentOperationText)
-        currentOperationText = currentOperationText.toString() + n.textContent;
-        currentOperation.textContent = currentOperationText;
-        return currentOperationText;
+    if (prevOperation.textContent === "") {
+        num1 = num1.toString() + n.textContent;
+        currentOperation.textContent = num1;
+        return num1;
     } else {
-        prevOperationText = currentOperationText;
-        currentOperationText = currentOperationText + n.textContent;
-        return currentOperationText;
+        num2 = num2.toString() + n.textContent;
+        currentOperation.textContent = num2;
+        return num1;
     }
 }))
-
-// Create 4 operator functions:
-    // Add
-const add = function() {
-    operator = "+";
-    prevOperationText = `${currentOperationText} ${operator}`;
-    return operator;
-}
-    // Subtract
-const subtract = function () {
-    operator = "-";
-    prevOperationText = `${currentOperationText} ${operator}`;
-    return operator;
-}
-    // Divide
-const divided = function () {
-    operator = "/";
-    prevOperation.textContent = `${num1.join("")} ${operator}`;
-    return operator;
-}
-    // Multiply
-const multiply = function () {
-    operator = "*";
-    prevOperation.textContent = `${num1.join("")} X `;
-    return operator;
-}
-
-plus.addEventListener('click', add);
-minus.addEventListener('click', subtract);
-divide.addEventListener('click', divided);
-times.addEventListener('click', multiply);
 
 // Create "operate" function w/ 3 operators: 2 numbers and 1 operator
 function operate(num1, num2, operator) {
     if (operator === "/") {
-        prevOperation.textContent = Number(num1.join("")) / Number(num2.join(""));
+        prevOperation.textContent = `${num1} ${operator} ${num2} =`;
+        num1 = Number(num1) / Number(num2);
+        operator = "";
+        num2 = "";
+        currentOperation.textContent = num1;
+        console.log(num1);
+        
     }
-    return num1 + operator + num2;
+    return num1, num2, operator;
 }
 
-// Create function that makes buttons display a value in the display area
+// Create 4 operator functions:
+    // Add
+const add = function() {
+    console.log(num1);
+    operator = "+";
+    num2 = `${num1} ${operator}`;
+    return operator;
+}
+    // Subtract
+const subtract = function () {
+    console.log(num1);
+    operator = "-";
+    num2 = `${num1} ${operator}`;
+    return operator;
+}
+    // Divide
+const divided = function () {
+    console.log(num1);
+    operator = "/";
+    prevOperation.textContent = `${num1} ${operator}`;
+    return operator;
+}
+    // Multiply
+const multiply = function () {
+    console.log(num1);
+    operator = "*";
+    prevOperation.textContent = `${num1} X `;
+    return operator;
+}
+
+plus.addEventListener('click', function() {
+    add();
+});
+minus.addEventListener('click', function () {
+    subtract();
+});
+divide.addEventListener('click', function () {
+    divided();
+});
+times.addEventListener('click', function () {
+    multiply();
+});
+equals.addEventListener('click', function() {
+    operate(num1, num2, operator);
+    return num1, num2, operator;
+});
