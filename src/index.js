@@ -11,34 +11,44 @@ let deleteBtn = document.querySelector('.delete');
 let equals = document.querySelector('.equals');
 
 // DEFINING NUMBERS AND OPERATOR
-let operator = "";
-let num1 = currentOperation.textContent;
-let num2 = prevOperation.textContent;
+const equation = {num1: "", num2: "", operator: ""}
 
 clearBtn.addEventListener('click', function() {
-    num1 = "";
-    num2 = "";
-    operator = "";
+    equation.num1 = "";
+    equation.num2 = "";
+    equation.operator = "";
     currentOperation.textContent = "";
     prevOperation.textContent = "";
-    return num1, num2;
+    console.log(equation['num1', 'num2']);
+    return equation['num1', 'num2'];
 })
 
 deleteBtn.addEventListener('click', function() {
-    num1 = num1.slice(0, -1);
-    currentOperation.textContent = num1;
-    return num1;
+    equation.num1 = equation.num1.toString().slice(0, -1);
+    currentOperation.textContent = equation.num1;
+    return equation.num1;
 })
 
 numberBtns.forEach(n => n.addEventListener('click', function () {
     if (prevOperation.textContent === "") {
-        num1 = num1.toString() + n.textContent;
-        currentOperation.textContent = num1;
-        return num1;
+        equation.num1 = equation.num1.toString() + n.textContent;
+        currentOperation.textContent = equation.num1;
+        return equation.num1;
     } else {
-        num2 = num2.toString() + n.textContent;
-        currentOperation.textContent = num2;
-        return num1;
+        if (prevOperation.textContent.includes("=")) {
+            console.log(equation.num2);
+            equation.operator = "";
+            equation.num2 = "";
+            prevOperation.textContent = "";
+            equation.num1 = equation.num1.toString() + n.textContent;
+            currentOperation.textContent = equation.num1;
+            return equation['num1', 'num2', 'operation'];
+        } else {
+            equation.num2 = equation.num2.toString() + n.textContent;
+            currentOperation.textContent = equation.num2;
+            console.log(equation.num2);
+            return equation.num2;
+        }
     }
 }))
 
@@ -46,46 +56,57 @@ numberBtns.forEach(n => n.addEventListener('click', function () {
 function operate(num1, num2, operator) {
     if (operator === "/") {
         prevOperation.textContent = `${num1} ${operator} ${num2} =`;
-        num1 = Number(num1) / Number(num2);
-        operator = "";
-        num2 = "";
-        currentOperation.textContent = num1;
-        console.log(num1);
-        
+        equation.num1 = Number(equation.num1) / Number(equation.num2);
+        currentOperation.textContent = equation.num1;
+    } else if (equation.operator === "*") {
+        prevOperation.textContent = `${equation.num1} ${equation.operator} ${equation.num2} =`;
+        equation.num1 = Number(equation.num1) * Number(equation.num2);
+        currentOperation.textContent = equation.num1;
+    } else if (equation.operator === "+") {
+        prevOperation.textContent = `${equation.num1} ${equation.operator} ${equation.num2} =`;
+        equation.num1 = Number(equation.num1) + Number(equation.num2);
+        currentOperation.textContent = equation.num1;
+    } else if (equation.operator === "-") {
+        prevOperation.textContent = `${equation.num1} ${equation.operator} ${equation.num2} =`;
+        equation.num1 = Number(equation.num1) - Number(equation.num2);
+        currentOperation.textContent = equation.num1;
     }
-    return num1, num2, operator;
+    equation.num2 = "";
+    equation.operator = "";
+    return [equation.num1, equation.num2, equation.operator];
 }
 
 // Create 4 operator functions:
     // Add
 const add = function() {
-    console.log(num1);
-    operator = "+";
-    num2 = `${num1} ${operator}`;
-    return operator;
+    console.log(equation.num1);
+    equation.operator = "+";
+    prevOperation.textContent = `${equation.num1} ${equation.operator}`;
+    return equation.operator;
 }
     // Subtract
 const subtract = function () {
-    console.log(num1);
-    operator = "-";
-    num2 = `${num1} ${operator}`;
-    return operator;
+    console.log(equation.num1);
+    equation.operator = "-";
+    prevOperation.textContent = `${equation.num1} ${equation.operator}`;
+    return equation.operator;
 }
     // Divide
 const divided = function () {
-    console.log(num1);
-    operator = "/";
-    prevOperation.textContent = `${num1} ${operator}`;
-    return operator;
+    console.log(equation.num1);
+    equation.operator = "/";
+    prevOperation.textContent = `${equation.num1} ${equation.operator}`;
+    return equation.operator;
 }
     // Multiply
 const multiply = function () {
-    console.log(num1);
-    operator = "*";
-    prevOperation.textContent = `${num1} X `;
-    return operator;
+    console.log(equation.num1);
+    equation.operator = "*";
+    prevOperation.textContent = `${equation.num1} X `;
+    return equation.operator;
 }
 
+// OPERATOR EVENT LISTENERS
 plus.addEventListener('click', function() {
     add();
 });
@@ -99,6 +120,5 @@ times.addEventListener('click', function () {
     multiply();
 });
 equals.addEventListener('click', function() {
-    operate(num1, num2, operator);
-    return num1, num2, operator;
+    operate(equation.num1, equation.num2, equation.operator);
 });
