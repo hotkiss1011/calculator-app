@@ -7,10 +7,12 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', 'Roboto', sans-serif;
+    background: linear-gradient(135deg, rgb(255, 0, 0) 0%, rgb(140, 0, 255) 100%);
 }
 
 h1 {
     font-size: 48px;
+    color: rgb(69, 2, 124);
 }
 
 .container {
@@ -20,8 +22,8 @@ h1 {
     justify-content: space-evenly;
     min-height: 500px;
     width: 350px;
-    background-color: rgb(0, 0, 124);
-    box-shadow: 5px -5px 3px rgb(0, 0, 109);
+    background: rgb(40, 4, 73);
+    box-shadow: 5px -5px 3px 3px rgb(27, 1, 51);
     border-radius: 10px;
     padding: 10px;
 }
