@@ -35,7 +35,11 @@ deleteBtn.addEventListener('click', function() {
 numberBtns.forEach(n => n.addEventListener('click', function () {
     // INITIAL USER ENTRY (no previous operation)
     if (prevOperation.textContent === "") {
-        equation.num1 = equation.num1.toString() + n.textContent;
+        if (equation.num1 === '0') {
+            equation.num1 = n.textContent;  
+        } else {
+            equation.num1 = equation.num1.toString() + n.textContent;
+        }
         currentOperation.textContent = equation.num1;
         return equation.num1;
     } else {
@@ -51,9 +55,12 @@ numberBtns.forEach(n => n.addEventListener('click', function () {
             return equation['num1', 'num2', 'operation'];
         } else {
             // INITIAL SECOND NUMBER ENTRY (previous operation not yet calculated)
-            equation.num2 = equation.num2.toString() + n.textContent;
+            if (equation.num2 === '0') {
+                equation.num2 = n.textContent;  
+            } else {
+                equation.num2 = equation.num2.toString() + n.textContent;
+            }
             currentOperation.textContent = equation.num2;
-            console.log(equation.num2);
             return equation.num2;
         }
     }
